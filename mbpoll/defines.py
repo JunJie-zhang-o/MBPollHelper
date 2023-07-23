@@ -1,5 +1,4 @@
 from enum import Enum
-from dataclasses import dataclass
 
 
 class Connection():
@@ -88,7 +87,7 @@ class DataFormat():
     Unsigned_64b_little_endian = 28
 
 
-class ReadWriteResult():
+class ReadWriteResult(Enum):
     # todo:有一些枚举值不对
     SUCCESS = 0
     TIMEOUT_ERROR = 1
@@ -112,54 +111,57 @@ class ReadWriteResult():
     GATEWAY_TARGET_DEVICE_FAILED_TO_RESPOND = 811
     
 
+class OpenConnectionResult(Enum):
+    SUCCESS = 0
+    SERIAL_PORT_NOT_AVAILABLE = 1
+    SERIAL_PORT_NOT_POSSIBLE_TO_GET_CURRENT_SETTINGS_FROM_THE_PORT_DRIVE = 3
+    SERIAL_PORT__SERIAL_PORT_DRIVE_DID_NOT_ACCEPT_PORT_SETTINGS = 4
+    SERIAL_PORT__SERIAL_PORT_DRIVE_DID_NOT_ACCECPT_TIMEOUT_SETTINGS = 5
+    TCP_UDP_CONNECTION_FAILED_WSA_START_UP = 12
+    TCP_UDP_CONNECTION_FAILED_CONNECT_ERROR = 13
+    TCP_UDP_CONNECTION_FAILED_TIMEOUT = 14
+    TCP_UDP_CONNECTION_FAILED_IOCTL = 15
+    TCP_UDP_CONNECTION_FAILED_SOCKET_ERROR = 17
+    TCP_UDP_CONNECTION_FAILED_ADDRESS_INFOMATION = 21
+    CONNECTION_ALREADY_OPEN = 255
+    
+
 
 class OpenConnectionError(Exception):
     ...
 
 class TimeoutErroe(Exception):
-    def __init__(self, *args: object) -> None:
-        super().__init__(*args)
+    ...
 
 
 class ResponseErroe(Exception):
-    def __init__(self, *args: object) -> None:
-        super().__init__(*args)
+    ...
 
 
 class CRCError(Exception):
-    pass
+    ...
 
 
 class WriteError(Exception):
-    pass
+    ...
 
 
 class ReadError(Exception):
-    pass
+    ...
 
 
 class InsufficientBytesReceived(Exception):
-    pass
+    ...
 
 
 class ByteCountError(Exception):
-    pass
+    ...
 
 
 class TransactionIDError(Exception):
-    pass
+    ...
 
 
-"""
-SerialPort
+class IncorrectAddressError(Exception):
+    ...
 
-RemoveEcho
-
-ResponseTimeout
-
-DelayBetweenPolls
-
-ServerPort = 502
-
-ConnectTimeout = 1000
-"""
