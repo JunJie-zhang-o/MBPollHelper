@@ -126,9 +126,9 @@ class OpenConnectionResult(Enum):
     CONNECTION_ALREADY_OPEN = 255
     
 
-
 class OpenConnectionError(Exception):
     ...
+    
 
 class TimeoutErroe(Exception):
     ...
@@ -165,3 +165,14 @@ class TransactionIDError(Exception):
 class IncorrectAddressError(Exception):
     ...
 
+
+class FunctionCode:
+    READ_COILS               = 0x01
+    READ_DISCRETE_INPUTS     = 0x02
+    READ_HOLDING_REGISTERS   = 0x03
+    READ_INPUT_REGISTERS     = 0x04
+    WRITE_SINGLE_COIL        = 0x05
+    WRITE_SINGLE_REGISTER    = 0x06
+    WRITE_MULTIPLE_COILS     = 0x15
+    WRITE_MULTIPLE_REGISTERS = 0x16
+    
