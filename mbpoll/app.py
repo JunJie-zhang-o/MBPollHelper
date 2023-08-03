@@ -25,6 +25,7 @@ class MBPollBaseApp:
         self._app.ResponseTimeout = self.responseTimeout
         self._app.DelayBetweenPolls = self.delayBetweenPolls
 
+        self.closeConnection()
         # todo:Exception
         openResult = self._app.OpenConnection
         if openResult != OpenConnectionResult.SUCCESS.value:
