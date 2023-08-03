@@ -1,6 +1,6 @@
 
 import win32com.client as win32
-from mbpoll.defines import IncorrectAddressError, DataFormat
+from mbpoll.defines import IncorrectAddressError, DataFormat, FunctionCode
 
 
 
@@ -56,8 +56,10 @@ class MBPollDocument():
         self.__slaveID  = slaveID
         self.scanRate = scanRate
         self.startingAddress = address
+        self.quantity = quantity
         self.__doc = win32.Dispatch(self.MBPOLL_DOC_NAME)
-        self.registers = [MBPollAddress(self.__doc, address=address, index=i) for i in range(quantity)]
+        # self.registers = [MBPollAddress(self.__doc, address=address, index=i) for i in range(quantity)]
+        self.functionCode = None
         
     
     @property
@@ -71,73 +73,89 @@ class MBPollDocument():
     
     
     def addressIsValid(self, address):
-        if address>= self.startingAddress and address <= self.startingAddress + len(self.registers):
+        if address>= self.startingAddress and address <= self.startingAddress + self.quantity:
             return True
         else:
             raise IncorrectAddressError()
 
     
-    def getAddress(self, address) -> MBPollAddress:
-        if self.addressIsValid(address):
-            register:MBPollAddress = self.registers[address - self.startingAddress]
-            return register
+    # def getAddress(self, address) -> MBPollAddress:
+    #     if self.addressIsValid(address):
+    #         register:MBPollAddress = self.registers[address - self.startingAddress]
+    #         return register
 
     
     def readCoils(self, address, quantity:int = 1) -> list:
         if self.addressIsValid(address):
-            self.__doc.ReadCoils(self.slaveID, address, quantity, self.scanRate)
-            result = [self.getAddress(address+i).value for i in range(quantity)]
+            if self.functionCode is None:
+                self.__doc.ReadCoils(self.slaveID, address, quantity, self.scanRate)
+                self.functionCode = FunctionCode.READ_COILS
+            # result = [self.getAddress(address+i).value for i in range(quantity)] 
+            result = [self.__doc.Coils(index) for index in range(quantity)]
             return result
     
     
-    def readDiscreteInputs(self, address, quantity:int = 1):
+    def readDiscreteInputs(self, address, quantity:int = 1) -> list:
         if self.addressIsValid(address):
-            self.__doc.ReadDiscreteInputs(self.slaveID, address, quantity, self.scanRate)
-            result = [self.getAddress(address+i).value for i in range(quantity)]
+            if self.functionCode is None:
+                self.__doc.ReadDiscreteInputs(self.slaveID, address, quantity, self.scanRate)
+                self.functionCode = FunctionCode.READ_DISCRETE_INPUTS
+            # result = [self.getAddress(address+i).value for i in range(quantity)]
+            result = [self.__doc.Coils(index) for index in range(quantity)]
             return result
     
     
     def readHoldingRegisters(self, address, quantity:int = 1):
         if self.addressIsValid(address):
-            self.__doc.ReadHoldingRegisters(self.slaveID, address, quantity, self.scanRate)
-            result = [self.getAddress(address+i).value for i in range(quantity)]
+            if self.functionCode is None:
+                self.__doc.ReadHoldingRegisters(self.slaveID, address, quantity, self.scanRate)
+                self.functionCode = FunctionCode.READ_HOLDING_REGISTERS
+            # result = [self.getAddress(address+i).value for i in range(quantity)]
+            result = [self.__doc.SRegisters(index) for index in range(quantity)]
             return result
     
     
     def readInputRegisters(self, address, quantity:int = 1):
         if self.addressIsValid(address):
-            self.__doc.ReadInputRegisters(self.slaveID, address, quantity, self.scanRate)
-            result = [self.getAddress(address+i).value for i in range(quantity)]
+            if self.functionCode is None:
+                self.__doc.ReadInputRegisters(self.slaveID, address, quantity, self.scanRate)
+                self.functionCode = FunctionCode.READ_INPUT_REGISTERS
+            # result = [self.getAddress(address+i).value for i in range(quantity)]
+            result = [self.__doc.SRegisters(index) for index in range(quantity)]
             return result
     
     
     def writeSingleCoil(self, address, data):
         if self.addressIsValid(address):
-            coil =  self.getAddress(address)
-            coil.value = data
+            self.__doc.Coils(address - self.startingAddress, data)
+            # coil =  self.getAddress(address)
+            # coil.value = data
             self.__doc.WriteSingleCoil(self.slaveID, address)
     
     
     def writeSingleRegister(self, address, data):
         if self.addressIsValid(address):
-            register =  self.getAddress(address)
-            register.value = data
+            self.__doc.SRegisters(address - self.startingAddress, data)
+            # register =  self.getAddress(address)
+            # register.value = data
             self.__doc.WriteSingleRegister(self.slaveID, address)
     
     
     def writeMultipleCoils(self, address, data:list):
         if self.addressIsValid(address):
             for index in range(len(data)):
-                coil = self.getAddress(address+index)
-                coil.value = data[index]
+                self.__doc.Coils(index, data[index])
+                # coil = self.getAddress(address+index)
+                # coil.value = data[index]
             self.__doc.WriteMultipleCoils(self.slaveID, address)
     
     
     def writeMultipleRegisters(self, address, data):
         if self.addressIsValid(address):
             for index in range(len(data)):
-                register = self.getAddress(address+index)
-                register.value = data[index]
+                self.__doc.SRegisters(index, data[index])
+                # register = self.getAddress(address+index)
+                # register.value = data[index]
             self.__doc.WriteMultipleRegisters(self.slaveID, address)
 
 
@@ -193,11 +211,11 @@ class MBPollDocument():
     
     
     def getTxCount(self):
-        self.__doc.GetTxCount()
+        return self.__doc.GetTxCount
     
     
     def getRxCount(self):
-        self.__doc.GetRxCount()
+        return self.__doc.GetRxCount
     
     
     def getAddressName(self, address):
