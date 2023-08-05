@@ -18,6 +18,7 @@ class MBPollBaseApp:
         self.connection = connection
         self.responseTimeout = responseTimeout
         self.delayBetweenPolls = delayBetweenPolls
+        self.__docs = []
         
     
     def _openConnection(self):
@@ -45,47 +46,49 @@ class MBPollBaseApp:
         self._app.CloseCommunicationTraffic
         
     
-    def createMbPollDoc(self, slaveID:int, address:int, quantity:int, scanRate:int= 100) -> MBPollDocument : 
-        doc = MBPollDocument(slaveID, address, quantity, scanRate= scanRate)
-        return doc
-    
-    
-    def createReadCoilsDoc(self, slaveID:int, address:int, quantity:int, scanRate:int= 100) -> MBPollDocument :
-        doc = MBPollDocument(slaveID, address, quantity, scanRate= scanRate)
-        doc.readCoils(address, quantity)
-        return doc
-    
-    
-    def createReadDiscreteInputsDoc(self, slaveID:int, address:int, quantity:int, scanRate:int= 100) -> MBPollDocument :
-        doc = MBPollDocument(slaveID, address, quantity, scanRate= scanRate)
-        doc.readDiscreteInputs(address, quantity)
+    def createMbPollDoc(self, slaveID:int, scanRate:int= 100) -> MBPollDocument : 
+        doc = MBPollDocument(slaveID, scanRate= scanRate)
+        self.__docs.append(doc)
         return doc
     
 
-    def createReadInputRegistersDoc(self, slaveID:int, address:int, quantity:int, scanRate:int= 100) -> MBPollDocument :
-        doc = MBPollDocument(slaveID, address, quantity, scanRate= scanRate)
-        doc.readInputRegisters(address, quantity)
-        return doc
+    
+    # def createReadCoilsDoc(self, slaveID:int, address:int, quantity:int, scanRate:int= 100) -> MBPollDocument :
+    #     doc = MBPollDocument(slaveID, scanRate= scanRate)
+    #     doc.readCoils(address, quantity)
+    #     return doc
+    
+    
+    # def createReadDiscreteInputsDoc(self, slaveID:int, address:int, quantity:int, scanRate:int= 100) -> MBPollDocument :
+    #     doc = MBPollDocument(slaveID, scanRate= scanRate)
+    #     doc.readDiscreteInputs(address, quantity)
+    #     return doc
+    
+
+    # def createReadInputRegistersDoc(self, slaveID:int, address:int, quantity:int, scanRate:int= 100) -> MBPollDocument :
+    #     doc = MBPollDocument(slaveID, scanRate= scanRate)
+    #     doc.readInputRegisters(address, quantity)
+    #     return doc
         
     
-    def createWriteSingleCoilDoc(self, slaveID:int, address:int, scanRate:int= 100) -> MBPollDocument :
-        doc = MBPollDocument(slaveID, address, quantity = 1, scanRate= scanRate)
-        return doc
+    # def createWriteSingleCoilDoc(self, slaveID:int, address:int, scanRate:int= 100) -> MBPollDocument :
+    #     doc = MBPollDocument(slaveID, scanRate= scanRate)
+    #     return doc
     
     
-    def createWriteSingleRegisterDoc(self, slaveID:int, address:int, scanRate:int= 100) -> MBPollDocument :
-        doc = MBPollDocument(slaveID, address, quantity = 1, scanRate= scanRate)
-        return doc
+    # def createWriteSingleRegisterDoc(self, slaveID:int, address:int, scanRate:int= 100) -> MBPollDocument :
+    #     doc = MBPollDocument(slaveID, scanRate= scanRate)
+    #     return doc
     
     
-    def createMultipleCoilsDoc(self, slaveID:int, address:int, quantity:int, scanRate:int= 100) -> MBPollDocument :
-        doc = MBPollDocument(slaveID, address, quantity, scanRate= scanRate)
-        return doc
+    # def createMultipleCoilsDoc(self, slaveID:int, address:int, quantity:int, scanRate:int= 100) -> MBPollDocument :
+    #     doc = MBPollDocument(slaveID, scanRate= scanRate)
+    #     return doc
     
     
-    def createMultipleRegistersDoc(self, slaveID:int, address:int, quantity:int, scanRate:int= 100) -> MBPollDocument :
-        doc = MBPollDocument(slaveID, address, quantity, scanRate= scanRate)
-        return doc
+    # def createMultipleRegistersDoc(self, slaveID:int, address:int, quantity:int, scanRate:int= 100) -> MBPollDocument :
+    #     doc = MBPollDocument(slaveID, scanRate= scanRate)
+    #     return doc
 
 
     

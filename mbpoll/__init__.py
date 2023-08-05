@@ -5,7 +5,7 @@ from .app import MBPollSerialApp,MBPollTCPApp,MBPollUDPApp
 
 from .defines import *
 
-from .document import MBPollDocument
+# from .document import MBPollDocument
 
 
 

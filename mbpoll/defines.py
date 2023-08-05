@@ -55,7 +55,8 @@ class IPVersion():
     IPV6 = 6
 
 
-class DataFormat():
+class DataFormat(Enum):
+    # todo:统一格式
     SIGNED = 0
     UNSIGNED = 1
     HEX = 2
@@ -166,7 +167,7 @@ class IncorrectAddressError(Exception):
     ...
 
 
-class FunctionCode:
+class FunctionCode():
     READ_COILS               = 0x01
     READ_DISCRETE_INPUTS     = 0x02
     READ_HOLDING_REGISTERS   = 0x03
