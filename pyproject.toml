@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "mbpollhelper"
+version = "0.1.0"
+description = "Automatic control of MBPoll software, providing Python API and encapsulation"
+authors = ["jay <jay.zhangjunjie@outlook.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
