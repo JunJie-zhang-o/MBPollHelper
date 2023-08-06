@@ -61,32 +61,46 @@ class DataFormat(Enum):
     UNSIGNED = 1
     HEX = 2
     BINARY = 3
-    FLOAT_LITTLE_ENDIAN_BYTE_SWAP = 4
+    
     FLOAT_BIG_ENDIAN = 5
-    DOUBLE_LITTLE_ENDIAN_BYTE_SWAP = 6
+    FLOAT_LITTLE_ENDIAN_BYTE_SWAP = 4
+    FLOAT_BIG_ENDIAN_BYTE_SWAP = 11
+    FLOAT_LITTLE_ENDIAN = 10
+
     DOUBLE_BIG_ENDIAN = 7
-    SIGNED_32bit_LITTLE_ENDIAN_BYTE_SWAP = 8
-    SIGNED_32bit_BIG_ENDIAN = 9
+    DOUBLE_LITTLE_ENDIAN_BYTE_SWAP = 6
+    DOUBLE_BIG_ENDIAN_BYTE_SWAP = 13
+    DOUBLE_LITTLE_ENDIAN = 12
 
-    Floa_little_endian = 10
-    Float_big_endian_byte_swap = 11
-    Double_little_endian = 12
-    Double_big_endian_byte_swap = 13
-    Signed_32b_little_endian = 14
-    Signed_32bbig_endian_byte_swap = 15
-    Unsigned_32b_big_endian = 17
-    Unsigned_32b_little_endian_byte_swap = 18
-    Unsigned_32b_big_endian_byte_swap = 19
-    Unsigned_32b_little_endian = 20
-    Signed_64b_big_endian = 21
-    Signed_64b_little_endian_byte_swap = 22
-    Signed_64b_big_endian_byte_swap = 23
-    Signed_64b_little_endian = 24
-    Unsigned_64b_big_endian = 25
-    Unsigned_64b_little_endian_byte_swap = 26
-    Unsigned_64b_big_endian_byte_swap = 27
-    Unsigned_64b_little_endian = 28
+    SIGNED_32B_BIG_ENDIAN = 9
+    SIGNED_32B_LITTLE_ENDIAN_BYTE_SWAP = 8
+    SIGNED_32B_BIG_ENDIAN_BYTE_SWAP = 15
+    SIGNED_32B_LITTLE_ENDIAN = 14
 
+    UNSIGNED_32B_BIG_ENDIAN = 17
+    UNSIGNED_32B_LITTLE_ENDIAN_BYTE_SWAP = 18
+    UNSIGNED_32B_BIG_ENDIAN_BYTE_SWAP = 19
+    UNSIGNED_32B_LITTLE_ENDIAN = 20
+
+    SIGNED_64B_BIG_ENDIAN = 21
+    SIGNED_64B_LITTLE_ENDIAN_BYTE_SWAP = 22
+    SIGNED_64B_BIG_ENDIAN_BYTE_SWAP = 23
+    SIGNED_64B_LITTLE_ENDIAN = 24
+    
+    UNSIGNED_64B_BIG_ENDIAN = 25
+    UNSIGNED_64B_LITTLE_ENDIAN_BYTE_SWAP = 26
+    UNSIGNED_64B_BIG_ENDIAN_BYTE_SWAP = 27
+    UNSIGNED_64B_LITTLE_ENDIAN = 28
+
+
+class ByteOrder():
+    """字节顺序
+    """
+    BIG_ENDIAN = 0
+    LITTLE_ENDIAN_BYTE_SWAP = 1
+    BIG_ENDIAN_BYTE_SWAP = 2
+    LITTLE_ENDIAN = 3
+    
 
 class ReadWriteResult(Enum):
     # todo:有一些枚举值不对
