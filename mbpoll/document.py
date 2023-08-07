@@ -19,8 +19,8 @@ class MBPollBaseDocument():
         """
         self.__slaveID  = slaveID
         self.__scanRate = scanRate
-        self.startingAddress = None
-        self.quantity = None
+        self.startingAddress = 0
+        self.quantity = 0
         self.__doc = win32.Dispatch(self.MBPOLL_DOC_NAME)
         
     
@@ -388,7 +388,16 @@ class MBPollDocument(MBPollBaseDocument):
         return result
     
     
-    def writeSingleCoil(self, address, data, isCreateWin:bool=False, scanRateForWin:int=None, enableRefresh:bool=True):
+    def writeSingleCoil(self, address:int, data:int, isCreateWin:bool=False, scanRateForWin:int=None, enableRefresh:bool=True):
+        """Modbus function code 05
+
+        Args:
+            address (int): Modbus address
+            data (int): Data  of corresponding addresses
+            isCreateWin (bool, optional): Whether to create a write window. Defaults to False.
+            scanRateForWin (int, optional): Refresh frequency of the write window, just enable for isCreateWin == True. Defaults to None.
+            enableRefresh (bool, optional): Not Use. Defaults to True.
+        """
         if isCreateWin:
             scanRate = self.scanRate if scanRateForWin is None else scanRateForWin
             self.document.WriteSingleCoilWin(self.slaveID, address, scanRate)
@@ -415,7 +424,16 @@ class MBPollDocument(MBPollBaseDocument):
     #         self.document.WriteSingleRegister(self.slaveID, address)
     
     
-    def writeMultipleCoils(self, address, data:list, isCreateWin:bool=False, scanRateForWin:int=None, enableRefresh:bool=True):
+    def writeMultipleCoils(self, address:int, data:list, isCreateWin:bool=False, scanRateForWin:int=None, enableRefresh:bool=True):
+        """Modbus function code 15
+
+        Args:
+            address (int): Modbus address
+            data (int): Data list of corresponding addresses
+            isCreateWin (bool, optional): Whether to create a write window. Defaults to False.
+            scanRateForWin (int, optional): Refresh frequency of the write window, just enable for isCreateWin == True. Defaults to None.
+            enableRefresh (bool, optional): Not Use. Defaults to True.
+        """
         if isCreateWin:
             scanRate = self.scanRate if scanRateForWin is None else scanRateForWin
             self.document.WriteMultipleCoilsWin(self.slaveID, address, len(data), scanRate)
@@ -430,7 +448,17 @@ class MBPollDocument(MBPollBaseDocument):
             self.document.WriteMultipleCoils(self.slaveID, address, len(data))
     
     
-    def writeMultipleRegisters(self, address, data, format:DataFormat=DataFormat.SIGNED,isCreateWin:bool=False, scanRateForWin:int=None, enableRefresh:bool=True):
+    def writeMultipleRegisters(self, address:int, data:list, format:DataFormat=DataFormat.SIGNED,isCreateWin:bool=False, scanRateForWin:int=None, enableRefresh:bool=True):
+        """Modbus function code 16
+
+        Args:
+            address (int): Modbus address
+            data (list): Data list of corresponding addresses
+            format (DataFormat, optional): _description_. Defaults to DataFormat.SIGNED.
+            isCreateWin (bool, optional): Whether to create a write window. Defaults to False.
+            scanRateForWin (int, optional): Refresh frequency of the write window, just enable for isCreateWin == True. Defaults to None.
+            enableRefresh (bool, optional): Not Use. Defaults to True.
+        """
         if isCreateWin:
             scanRate = self.scanRate if scanRateForWin is None else scanRateForWin
             self.document.WriteMultipleRegistersWin(self.slaveID, address, self.__getNums(data,format), scanRate)
